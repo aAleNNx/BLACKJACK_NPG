@@ -1,8 +1,11 @@
-def f1():
-    return "Hi Word"
-
-for i in range(0,10):
-    if i%2==0:
-        print(f1())
-    else:
-        print("no")
+def KARTA(wartosc):
+    for i in range(10):
+        print("-", end="")
+    print(f"\n| {wartosc}      |")
+    for i in range(3):
+        print("|        |")
+    print(f"|      {wartosc} |")
+    for i in range(10):
+        print("-", end="")
+        
+KARTA("J")
