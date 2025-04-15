@@ -1,5 +1,5 @@
 def f1():
-    print("hello world")
+    return "Hi Word"
 
-for i in range(0,1000):
-    f1()
+for i in range(0,10):
+    print(f1())
