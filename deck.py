@@ -19,7 +19,8 @@ class Deck:
                           Card('Special','',is_special = True),
                           Card('Special','',is_special = True),
                           Card('Special','',is_special = True)]
-        cards.append(special_cards)
+        for special in special_cards:
+            cards.append(special)
         return cards
 
     def draw(self):
