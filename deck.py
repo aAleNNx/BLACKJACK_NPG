@@ -16,7 +16,10 @@ class Deck:
                 for rank in ranks:
                     cards.append(Card(suit, rank))
         special_cards = [ Card('Special','',is_special = True),
-        Card('Special','',is_special = True), Card('Special','',is_special = True), Card('Special','',is_special = True)]
+                          Card('Special','',is_special = True),
+                          Card('Special','',is_special = True),
+                          Card('Special','',is_special = True)]
+        cards.append(special_cards)
         return cards
 
     def draw(self):
