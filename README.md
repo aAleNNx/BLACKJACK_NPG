@@ -10,4 +10,3 @@ Funkcjonalności gry:
     4. Możliwość cofnięcia ruchu.
     5. Tryb gry na czas.
     6. Dodatkowe karty specjalne w talii (Joker itp.)
-    7. Siemano_Test_Pycharm_Git
