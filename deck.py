@@ -1,7 +1,7 @@
 from card import Card
 import random
 
-class Talia:
+class Deck:
     def __init__(self, deck_count =  1):
         self.deck_count = deck_count
         self.deck = self.generate_decks()
@@ -14,7 +14,7 @@ class Talia:
         for i in range(self.deck_count):
             for suit in suits:
                 for rank in ranks:
-                    cards.append(Card(rank, suit))
+                    cards.append(Card(suit, rank))
         special_cards = [ Card('Special','',is_special = True),
         Card('Special','',is_special = True), Card('Special','',is_special = True), Card('Special','',is_special = True)]
         return cards
