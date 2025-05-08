@@ -14,7 +14,7 @@ class Talia:
         for i in range(self.deck_count):
             for suit in suits:
                 for rank in ranks:
-                    deck.append(Card(rank, suit))
+                    cards.append(Card(rank, suit))
         special_cards = [ Card('Special','',is_special = True),
         Card('Special','',is_special = True), Card('Special','',is_special = True), Card('Special','',is_special = True)]
         return cards
