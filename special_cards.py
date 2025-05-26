@@ -1,14 +1,11 @@
 import random
 
-def apply_special_effect(card, player, deck, opponent):
-    if card.rank == "JOKER":
-    #funkcjonalnosc zdefiniowana w funkcji calculate_hand_value()
-        continue
-    elif card.rank == "X":
+def apply_special_effect(card, player, deck, computer):
+    if card.rank == "X":
         #Usuwa kartę przeciwnika
         effect_remove_card(computer)
     elif card.rank == "D":
-        effect_draw_two(player)
+        effect_draw_two(player, deck)
         #Podwaja wartość następnej dobranej karty
     elif card.rank == "C":
         effect_copy_card(player)
