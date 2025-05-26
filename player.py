@@ -6,8 +6,12 @@ class Player:
         self.hand = []
         self.standing = False
         self.busted = False
+        self.next_card_mult = 1.0
 
     def add_card(self, card):
+        if self.next_card_mult != 1.0:
+            card.multiplier = self.next_card_mult
+            self.next_card_mult = 1.0
         self.hand.append(card)
         if calculate_hand_value(self.hand) > 21:
             self.busted = True
