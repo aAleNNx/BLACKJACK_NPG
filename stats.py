@@ -35,15 +35,15 @@ def reset_stats():
     """
     if os.path.exists(STATS_FILE):
         os.remove(STATS_FILE)
-        print("✅ Statystyki zostały zresetowane.")
+        print("Statystyki zostały zresetowane.")
     else:
-        print("⚠️ Nie znaleziono pliku statystyk.")
+        print("Nie znaleziono pliku statystyk.")
 
 def display_stats(stats):
     if not stats:
         print("Brak statystyk do wyświetlenia.")
         return
 
-    print("\n📊 Statystyki graczy:")
+    print("\n Statystyki graczy:")
     for player, data in stats.items():
         print(f"  {player}: {data['wins']} wygranych, {data['losses']} przegranych, {data['draws']} remisów")
