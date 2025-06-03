@@ -1,5 +1,8 @@
 from card import *
 from deck import *
+import os
+
+os.makedirs("data", exist_ok=True)
 
 talia = Deck(1)
 karta = Card("Diamonds", "J")
