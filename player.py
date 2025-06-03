@@ -1,4 +1,5 @@
 from utils import calculate_hand_value
+from special_cards import *
 
 class Player:
     def __init__(self, name):
@@ -15,6 +16,10 @@ class Player:
         self.hand.append(card)
         if calculate_hand_value(self.hand) > 21:
             self.busted = True
+
+        if getattr(card, 'is_special', False):
+            apply_special_effect(card, self, None, None)
+
 
     def get_hand_value(self):
         return calculate_hand_value(self.hand)
