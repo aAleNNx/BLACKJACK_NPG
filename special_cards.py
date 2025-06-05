@@ -1,6 +1,6 @@
 import random
 from card import *
-from computer import *
+
 from deck import *
 
 def apply_special_effect(card, player, deck, computer):

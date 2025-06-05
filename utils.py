@@ -15,7 +15,7 @@ def calculate_hand_value(hand):
         elif card.rank == "JOKER":
             jokers_count += 1
         else:
-            total_val += int(card.rank)
+            total_val += int(card.rank) * mult
 
     while total_val > 21 and aces_count > 0:
         total_val -= 10 * mult

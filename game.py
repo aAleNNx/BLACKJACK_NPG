@@ -46,14 +46,17 @@ class Game:
         else:
             print(f"{self.opponent.name}'s hand: \n")
             self.opponent.show_hand()
-            while self.opponent.should_draw_card():
-                self.opponent.add_card(self.deck.draw(), self.deck, self.opponent)
+            while self.opponent.get_hand_value() < 17:
+                self.opponent.add_card(self.deck.draw(), self.deck, self.player)
                 print(self.opponent.hand[-1])
+            print(f"{self.opponent.name}'s hand value:", self.opponent.get_hand_value(), "\n")
             if self.player.get_hand_value() > self.opponent.get_hand_value():
                 print(f"{self.player.name} wins!")
-            elif self.player.get_hand_value() < self.opponent.get_hand_value():
+            elif self.player.get_hand_value() < self.opponent.get_hand_value() <= 21:
                 print(f"{self.opponent.name} wins!")
-            else:
+            elif self.opponent.get_hand_value() > 21:
+                print(f"{self.player.name} wins!")
+            elif self.opponent.get_hand_value() == self.player.get_hand_value():
                 print("Draw.")
             pass
         self.player.reset_hand()
