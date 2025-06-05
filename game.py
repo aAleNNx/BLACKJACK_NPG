@@ -11,7 +11,7 @@ class Game:
         self.opponent = opponent
     
     def run(self):
-        for i in range(1):
+        for i in range(5):
             self.play_round()
         
     def play_round(self):
@@ -41,7 +41,7 @@ class Game:
 
         else:
             while self.player.get_hand_value() < 21:
-                print("1. Hit\n2. Stand")
+                print("Make your move: \n1. Hit\n2. Stand")
                 choice = int(input())
                 if choice == 1:
                     self.player.add_card(self.deck.draw(), self.deck, self.opponent)
@@ -61,8 +61,8 @@ class Game:
 
                 while self.opponent.should_draw_card():
                     self.opponent.add_card(self.deck.draw(), self.deck, self.opponent)
-                    print(self.opponent.hand[-1])
-                print(f"{self.opponent.name}'s hand value: ", self.opponent.get_hand_value())
+                    print(f"{self.opponent.name} draws: ",self.opponent.hand[-1])
+                print(f"\n{self.opponent.name}'s hand value: ", self.opponent.get_hand_value(), "\n")
                 if self.player.get_hand_value() > self.opponent.get_hand_value():
                     print(f"{self.player.name} wins!")
                 elif self.player.get_hand_value() < self.opponent.get_hand_value() <= 21:

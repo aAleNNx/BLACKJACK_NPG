@@ -34,6 +34,7 @@ class ComputerPlayer:
         self.busted = False
 
     def show_hand(self):
+        print("|||", end=" ")
         for card in self.hand:
             print(card, end=' ||| ')
         print("\n")
