@@ -32,6 +32,5 @@ class Player:
     def show_hand(self):
         for card in self.hand:
             print(card)
-            print("\n")
 
 

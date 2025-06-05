@@ -10,21 +10,23 @@ class Game:
         self.opponent = opponent
     
     def run(self):
-        for i in range(10):
+        for i in range(1):
             self.play_round()
         
     def play_round(self):
-        print(self.opponent.name)
+        print(self.opponent.name, ":\n")
         self.opponent.add_card(self.deck.draw(), self.deck, self.player)
         self.opponent.add_card(self.deck.draw(), self.deck, self.player)
+        print(f"{self.opponent.name}"'s first card: ')
         print(self.opponent.hand[0])
         print(f"{self.opponent.name}'s hand value:", self.opponent.hand[0].get_value(), "\n")
 
-        print(self.player.name)
+        print(self.player.name, ":\n")
         self.player.add_card(self.deck.draw(), self.deck, self.opponent)
         self.player.add_card(self.deck.draw(), self.deck, self.opponent)
+        print(f"{self.player.name}"'s hand: ')
         self.player.show_hand()
-        print("Your hand value:", self.player.get_hand_value(), "\n")
+        print(f"{self.player.name}'s hand value:", self.player.get_hand_value(), "\n")
 
         if self.player.get_hand_value() == 21:
             print("BLACKJACK")
@@ -34,8 +36,9 @@ class Game:
             choice = int(input())
             if choice == 1:
                 self.player.add_card(self.deck.draw(), self.deck, self.opponent)
+                print(f"{self.player.name}"'s hand: ')
                 self.player.show_hand()
-                print("Your hand value:", self.player.get_hand_value(), "\n")
+                print(f"{self.player.name}'s hand value:", self.player.get_hand_value(), "\n")
             elif choice == 2:
                 break
             else:
@@ -54,7 +57,7 @@ class Game:
             elif self.player.get_hand_value() < self.opponent.get_hand_value():
                 print(f"{self.opponent.name} wins!")
             else:
-                print("Draw.")
+                print("Draw.\n")
             pass
         self.player.reset_hand()
 
