@@ -9,7 +9,7 @@ class Player:
         self.busted = False
         self.next_card_mult = 1.0
 
-    def add_card(self, card):
+    def add_card(self, card, deck = None, computer = None):
         if self.next_card_mult != 1.0:
             card.multiplier = self.next_card_mult
             self.next_card_mult = 1.0
@@ -18,7 +18,7 @@ class Player:
             self.busted = True
 
         if getattr(card, 'is_special', False):
-            apply_special_effect(card, self, None, None)
+            apply_special_effect(card, self, deck, computer)
 
 
     def get_hand_value(self):

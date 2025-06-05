@@ -1,5 +1,7 @@
 import random
 from card import *
+from computer import *
+from deck import *
 
 def apply_special_effect(card, player, deck, computer):
     if card.rank == "X":
@@ -12,7 +14,7 @@ def apply_special_effect(card, player, deck, computer):
         effect_copy_card(player)
         #Kopiuje poprzednio dobraną kartę
     elif card.rank == "Z":
-        effect_draw_two(player, deck)
+        effect_draw_two(player, deck, computer)
         #Dobiera 2 karty
 
 def effect_remove_card(computer):
@@ -24,11 +26,11 @@ def effect_remove_card(computer):
         print(f"{computer.name} nie ma kart do usunięcia.")
 
 
-def effect_draw_two(player, deck):
+def effect_draw_two(player, deck, computer):
     for i in range(2):
         extra_card = deck.draw()
         if extra_card:
-            player.add_card(extra_card)
+            player.add_card(extra_card, deck)
         else:
             print("Brak kart w talii.")
 

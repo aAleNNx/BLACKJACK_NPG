@@ -1,11 +1,13 @@
 from card import *
 from deck import *
 from player import *
+from computer import *
 
 class Game:
-    def __init__(self, *players, deck_count = 1):
+    def __init__(self, *players, opponent, deck_count = 1):
         self.deck = Deck(deck_count)
         self.players = players
+        self.opponent = opponent
     
     def run(self):
         for i in range(10):
@@ -14,8 +16,8 @@ class Game:
     def play_round(self):
         for player in self.players:
             print(player.name)
-            player.add_card(self.deck.draw())
-            player.add_card(self.deck.draw())
+            player.add_card(self.deck.draw(), self.deck, self.opponent)
+            player.add_card(self.deck.draw(), self.deck, self.opponent)
             player.show_hand()
             print("Hand value:", player.get_hand_value(), "\n")
             if player.get_hand_value() == 21:
@@ -25,7 +27,7 @@ class Game:
                 print("1. Hit\n2. Stand")
                 choice = int(input())
                 if choice == 1:
-                    player.add_card(self.deck.draw())
+                    player.add_card(self.deck.draw(), self.deck, self.opponent)
                     player.show_hand()
                     print("Hand value:", player.get_hand_value(), "\n")
                 elif choice == 2:
@@ -41,5 +43,6 @@ class Game:
             player.reset_hand()
 
 player = Player("Leon")
-game = Game(player)
+computer = ComputerPlayer("Krupier")
+game = Game(player, opponent=computer)
 game.run()
