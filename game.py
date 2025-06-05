@@ -49,9 +49,10 @@ class Game:
             while self.opponent.should_draw_card():
                 self.opponent.add_card(self.deck.draw(), self.deck, self.opponent)
                 print(self.opponent.hand[-1])
+            print(f"{self.opponent.name}'s hand value:",self.opponent.get_hand_value())
             if self.player.get_hand_value() > self.opponent.get_hand_value():
                 print(f"{self.player.name} wins!")
-            elif self.player.get_hand_value() < self.opponent.get_hand_value():
+            elif self.player.get_hand_value() < self.opponent.get_hand_value() <= 21:
                 print(f"{self.opponent.name} wins!")
             elif self.opponent.get_hand_value() > 21:
                 print(f"{self.player.name} wins!")
