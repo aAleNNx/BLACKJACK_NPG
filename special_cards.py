@@ -6,13 +6,13 @@ def apply_special_effect(card, player, deck, computer):
         #Usuwa kartę przeciwnika
         effect_remove_card(computer)
     elif card.rank == "D":
-        effect_draw_two(player, deck)
+        effect_multiplier(player)
         #Podwaja wartość następnej dobranej karty
     elif card.rank == "C":
         effect_copy_card(player)
         #Kopiuje poprzednio dobraną kartę
     elif card.rank == "Z":
-        effect_multiplier(player)
+        effect_draw_two(player, deck)
         #Dobiera 2 karty
 
 def effect_remove_card(computer):
