@@ -15,10 +15,10 @@ class Deck:
             for suit in suits:
                 for rank in ranks:
                     cards.append(Card(suit, rank))
-        special_cards = [ Card('Special','',is_special = True),
-                          Card('Special','',is_special = True),
-                          Card('Special','',is_special = True),
-                          Card('Special','',is_special = True)]
+        special_cards = [ Card('Special','JOKER',is_special = True),
+                          Card('Special','D',is_special = True),
+                          Card('Special','X',is_special = True),
+                          Card('Special','Z',is_special = True)]
         for special in special_cards:
             cards.append(special)
         return cards
