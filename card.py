@@ -1,8 +1,9 @@
 class Card:
-    def __init__(self, suit: str,  rank: str, is_special: bool = False):
+    def __init__(self, suit: str,  rank: str, multiplier = 1, is_special: bool = False):
         self.suit = suit
         self.rank = rank
         self.is_special = is_special
+        self.multiplier = multiplier
 
     def __str__(self):
         if self.is_special:
