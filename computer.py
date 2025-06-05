@@ -15,14 +15,17 @@ class ComputerPlayer:
             card.multiplier = self.next_card_multiplier
             self.next_card_multiplier = 1.0
         self.hand.append(card)
-        if calculate_hand_value(self.hand) > 21:
+        if self.get_hand_value() > 21:
             self.busted = True
 
         if getattr(card, 'is_special', False):
             apply_special_effect(card, self, None, None)  # Deck i przeciwnik muszą być przekazane wyżej
 
+    def get_hand_value(self):
+        return calculate_hand_value(self.hand)
+
     def should_draw_card(self):
-        value = calculate_hand_value(self.hand)
+        value = self.get_hand_value()
         return value < 17
 
     def reset_hand(self):

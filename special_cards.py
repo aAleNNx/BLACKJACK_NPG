@@ -11,6 +11,7 @@ def apply_special_effect(card, player, deck, computer):
         effect_copy_card(player)
         #Kopiuje poprzednio dobraną kartę
     elif card.rank == "Z":
+        pass
         #Dobiera 2 karty
 
 def effect_remove_card(computer):
