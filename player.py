@@ -30,7 +30,9 @@ class Player:
         self.busted = False
 
     def show_hand(self):
+        print(end='||| ')
         for card in self.hand:
-            print(card)
+            print(card, end=' ||| ')
+        print("\n")
 
 
