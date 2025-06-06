@@ -1,24 +1,27 @@
 from card import Card
 import random
 
+
 class Deck:
-    def __init__(self, deck_count =  1):
+    def __init__(self, deck_count=1):
         self.deck_count = deck_count
         self.deck = self.generate_decks()
         random.shuffle(self.deck)
 
     def generate_decks(self):
-        suits = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
-        ranks = ['2', '3', '4', '5', '6','7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+        suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
+        ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
         cards = []
         for i in range(self.deck_count):
             for suit in suits:
                 for rank in ranks:
                     cards.append(Card(suit, rank))
-        special_cards = [ Card('Special','JOKER',is_special = True),
-                          Card('Special','D',is_special = True),
-                          Card('Special','X',is_special = True),
-                          Card('Special','Z',is_special = True)]
+        special_cards = [
+            Card("Special", "JOKER", is_special=True),
+            Card("Special", "D", is_special=True),
+            Card("Special", "X", is_special=True),
+            Card("Special", "Z", is_special=True),
+        ]
         for special in special_cards:
             cards.append(special)
         return cards
@@ -32,5 +35,6 @@ class Deck:
     def reset(self):
         self.deck = self.generate_decks()
         random.shuffle(self.deck)
+
     def is_empty(self):
-        return len(self.deck) == 0 
+        return len(self.deck) == 0

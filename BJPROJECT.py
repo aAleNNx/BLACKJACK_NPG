@@ -9,6 +9,7 @@ def KARTA(wartosc, symbol):
     for i in range(11):
         print("-", end="")
     print("\n")
-        
+
+
 KARTA("J", "♠")
-KARTA("Q","♦")
+KARTA("Q", "♦")

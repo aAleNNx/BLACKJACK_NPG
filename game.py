@@ -2,18 +2,19 @@ from computer import ComputerPlayer
 from deck import *
 from player import *
 
+
 class Game:
-    def __init__(self, com_player: ComputerPlayer, *players: Player, deck_count = 1):
+    def __init__(self, com_player: ComputerPlayer, *players: Player, deck_count=1):
         self.deck = Deck(deck_count)
         self.players = players
         self.com_player = com_player
-    
+
     def run(self, num_rounds):
         for i in range(num_rounds):
-            print("ROUND", i+1)
+            print("ROUND", i + 1)
             self.play_round()
             input("Press enter to continue...")
-        print("FINISHED") #kto wygrał
+        print("FINISHED")  # kto wygrał
 
     def player_round(self, player: Player):
         print(player.name)
@@ -38,7 +39,7 @@ class Game:
 
         if player.get_hand_value() > 21:
             print("Bust!")
-        
+
     def play_round(self):
         self.com_player.add_card(self.deck.draw())
         print(self.com_player.name)
@@ -75,5 +76,5 @@ class Game:
 
 p1 = Player("Leon")
 c = ComputerPlayer("Dealer")
-game = Game(c, p1, deck_count = 2)
+game = Game(c, p1, deck_count=2)
 game.run(3)

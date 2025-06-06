@@ -2,6 +2,7 @@ from card import Card
 from deck import Deck
 import os
 
+
 def main():
     os.makedirs("data", exist_ok=True)
 
@@ -42,6 +43,7 @@ def main():
         print(f"\n🎉 {name}, jesteś zajebisty! Trafiłeś w {attempts} próbie.")
     else:
         print(f"\n😢 {name}, niestety nie udało się znaleźć {target_card}.")
+
 
 if __name__ == "__main__":
     main()

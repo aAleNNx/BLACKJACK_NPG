@@ -2,6 +2,7 @@ import random
 from utils import *
 from special_cards import *
 
+
 class ComputerPlayer:
     def __init__(self, name="Komputer"):
         self.name = name
@@ -18,8 +19,10 @@ class ComputerPlayer:
         if self.get_hand_value() > 21:
             self.busted = True
 
-        if getattr(card, 'is_special', False):
-            apply_special_effect(card, self, None, None)  # Deck i przeciwnik muszą być przekazane wyżej
+        if getattr(card, "is_special", False):
+            apply_special_effect(
+                card, self, None, None
+            )  # Deck i przeciwnik muszą być przekazane wyżej
 
     def get_hand_value(self):
         return calculate_hand_value(self.hand)

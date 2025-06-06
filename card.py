@@ -1,5 +1,5 @@
 class Card:
-    def __init__(self, suit: str,  rank: str, is_special: bool = False):
+    def __init__(self, suit: str, rank: str, is_special: bool = False):
         self.suit = suit
         self.rank = rank
         self.is_special = is_special
@@ -12,22 +12,18 @@ class Card:
     def get_value(self) -> int:
         if self.is_special:
             return 0
-        if self.rank in ['J', 'Q', 'K']:
+        if self.rank in ["J", "Q", "K"]:
             return 10
-        elif self.rank == 'A':
+        elif self.rank == "A":
             return 11
         else:
             return int(self.rank)
 
     def is_ace(self):
-        return self.rank == 'A'
+        return self.rank == "A"
 
     def to_dict(self):
-        return {
-            "suit": self.suit,
-            "rank": self.rank,
-            "is_special": self.is_special
-        }
+        return {"suit": self.suit, "rank": self.rank, "is_special": self.is_special}
 
     @staticmethod
     def from_dict(data):
