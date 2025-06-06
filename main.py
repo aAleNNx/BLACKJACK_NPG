@@ -40,7 +40,7 @@ def main():
 
     # 4. Statystyki końcowe
     if found:
-        print(f"\n🎉 {name}, jesteś zajebisty! Trafiłeś w {attempts} próbie.")
+        print(f"\n🎉 {name}, jesteś bardzo fajny Trafiłeś w {attempts} próbie.")
     else:
         print(f"\n😢 {name}, niestety nie udało się znaleźć {target_card}.")
 
