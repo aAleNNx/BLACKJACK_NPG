@@ -82,5 +82,5 @@ class Game:
 
 p1 = Player("Leon")
 c = ComputerPlayer("Dealer")
-game = Game(c, p1, deck_count=2)
+game = Game(c, p1, deck_count=2, time_limit=120)
 game.run(3)
