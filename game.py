@@ -103,13 +103,20 @@ class Game:
 
                 self.com_player.reset_hand()
                 self.stop_timer()
+
         finally:
-            print("Koniec czasu.")
-            self.stop_timer()
-            for player in self.players:
-                player.reset_hand()
-            self.com_player.reset_hand()
-            print("Runda zakończona wraz z upłynięciem czasu.\n")
+            self.end_game()
+
+    def end_game(self):
+        self.stop_timer()
+        print("Koniec gry.")
+        print("Wyniki:")
+        for player in self.players:
+            print(player.name, "ma", player.get_hand_value(), "punktów")
+        winner = max(self.players, key=lambda p: p.total_points, default=None)
+        print("Zwycięzca:", winner.name if winner else "Brak zwycięzcy")
+        print("Czas gry:", self.time_limit - self.time_left, "sekund")
+
 
 
 p1 = Player("Leon")
