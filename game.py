@@ -1,10 +1,16 @@
 from computer import ComputerPlayer
 from deck import *
 from player import *
+import time
+import threading
 
 
 class Game:
-    def __init__(self, com_player: ComputerPlayer, *players: Player, deck_count=1):
+    def __init__(self, com_player: ComputerPlayer, *players: Player, deck_count=1, time_limit=60):
+        self.time_limit = time_limit
+        self.time_left = time_limit
+        self.timer_running = False
+        self.timer_thread = None
         self.deck = Deck(deck_count)
         self.players = players
         self.com_player = com_player
