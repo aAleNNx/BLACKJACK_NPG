@@ -30,7 +30,11 @@ class Game:
             for player in self.players:
                 player.reset_hand()
             self.com_player.reset_hand()
-
+    def stop_timer(self):
+        self.timer_running = False
+        if self.timer_thread:
+            self.timer_thread.join()
+        self.time_left = self.time_limit
 
         
     def run(self, num_rounds):
