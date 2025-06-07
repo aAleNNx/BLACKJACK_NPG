@@ -16,6 +16,7 @@ class Game:
         self.com_player = com_player
 
     def start_timer(self):
+        self.time_left = self.time_limit
         self.timer_running = True
         self.timer_thread = threading.Thread(target=self._run_timer)
         self.timer_thread.start()
@@ -27,9 +28,6 @@ class Game:
         if self.time_left <= 0:
             print("\nCzas minął!")
             self.timer_running = False
-            for player in self.players:
-                player.reset_hand()
-            self.com_player.reset_hand()
     def stop_timer(self):
         self.timer_running = False
         if self.timer_thread:
@@ -69,37 +67,49 @@ class Game:
             print("Bust!")
 
     def play_round(self):
-        self.com_player.add_card(self.deck.draw())
-        print(self.com_player.name)
-        self.com_player.show_hand()
+        self.start_timer()
+        try:
+            while self.timer_running:
+            
+                self.com_player.add_card(self.deck.draw())
+                print(self.com_player.name)
+                self.com_player.show_hand()
 
-        for player in self.players:
-            self.player_round(player)
+                for player in self.players:
+                    self.player_round(player)
 
-        print(self.com_player.name)
-        while self.com_player.should_draw_card():
-            self.com_player.add_card(self.deck.draw())
-            self.com_player.show_hand()
-            print("Hand value:", self.com_player.get_hand_value(), "\n")
-            input("Press enter to continue...")
+                print(self.com_player.name)
+                while self.com_player.should_draw_card():
+                    self.com_player.add_card(self.deck.draw())
+                    self.com_player.show_hand()
+                    print("Hand value:", self.com_player.get_hand_value(), "\n")
+                    input("Press enter to continue...")
 
-        com_val = self.com_player.get_hand_value()
+                com_val = self.com_player.get_hand_value()
 
-        if com_val > 21:
-            print("Bust!\n")
+                if com_val > 21:
+                    print("Bust!\n")
 
-        print("\tRESULTS:")
-        for player in self.players:
-            val = player.get_hand_value()
-            if val <= 21 and (val > com_val or com_val > 21):
-                print(player.name, "WINS!\n")
-            elif 21 <= val == com_val:
-                print(player.name, "DRAWS!\n")
-            else:
-                print(player.name, "LOSES!\n")
-            player.reset_hand()
+                print("\tRESULTS:")
+                for player in self.players:
+                    val = player.get_hand_value()
+                    if val <= 21 and (val > com_val or com_val > 21):
+                        print(player.name, "WINS!\n")
+                    elif 21 <= val == com_val:
+                        print(player.name, "DRAWS!\n")
+                    else:
+                        print(player.name, "LOSES!\n")
+                    player.reset_hand()
 
-        self.com_player.reset_hand()
+                self.com_player.reset_hand()
+                self.stop_timer()
+        finally:
+            print("Koniec czasu.")
+            self.stop_timer()
+            for player in self.players:
+                player.reset_hand()
+            self.com_player.reset_hand()
+            print("Runda zakończona wraz z upłynięciem czasu.\n")
 
 
 p1 = Player("Leon")
