@@ -3,10 +3,20 @@ from deck import *
 from player import *
 import time
 import threading
+import sys
+
+def on_tick(sekundy):
+    if sekundy > 0:
+        print(f"\r[TIMER] ⏳ Left: {sekundy} seconds. ", end='', flush=True, file=sys.stderr)
+    else:
+        print("[TIMER] ❌ Time's up!", file=sys.stderr) 
+def clear_timer_line():
+    sys.stderr.write('\r' + ' ' * 80 + '\r')
+    sys.stderr.flush()
 
 
 class Game:
-    def __init__(self, com_player: ComputerPlayer, *players: Player, deck_count=1, time_limit=60):
+    def __init__(self, com_player: ComputerPlayer, *players: Player, deck_count=1, time_limit=10):
         self.time_limit = time_limit
         self.time_left = time_limit
         self.timer_running = False
@@ -14,46 +24,81 @@ class Game:
         self.deck = Deck(deck_count)
         self.players = players
         self.com_player = com_player
+        self.on_tick = on_tick
+        self.time_up = False
 
     def start_timer(self):
         self.time_left = self.time_limit
-        self.timer_running = True
+        self.time_up = False
+        self.timer_running = False 
         self.timer_thread = threading.Thread(target=self._run_timer)
         self.timer_thread.start()
+
     def _run_timer(self):
+        self.timer_running = True 
         while self.time_left > 0 and self.timer_running:
             time.sleep(1)
             self.time_left -= 1
-            print(f"Czas pozostały: {self.time_left} sekund", end=" ")
+            if self.on_tick:
+                self.on_tick(self.time_left)
         if self.time_left <= 0:
-            print("\nCzas minął!")
-            self.timer_running = False
+            self.time_up = True
+            if self.on_tick:
+                self.on_tick(0)
+
+
     def stop_timer(self):
         self.timer_running = False
-        if self.timer_thread:
+        if self.timer_thread and self.timer_thread.is_alive():
             self.timer_thread.join()
         self.time_left = self.time_limit
 
-        
     def run(self, num_rounds):
         for i in range(num_rounds):
-            print("ROUND", i + 1)
+            print(f"\n===== ROUND {i + 1} =====")
+            self.start_timer()
             self.play_round()
+            self.stop_timer()
+            clear_timer_line()
             input("Press enter to continue...")
-        print("FINISHED")  # kto wygrał
+        print("Finished")
 
     def player_round(self, player: Player):
-        print(player.name)
+        print(f"\n▶️ {player.name}'s turn")
         player.add_card(self.deck.draw())
         player.add_card(self.deck.draw())
         player.show_hand()
         print("Hand value:", player.get_hand_value(), "\n")
+
         if player.get_hand_value() == 21:
-            print("BLACKJACK")
+            print("🎉 BLACKJACK!")
+            return
 
         while player.get_hand_value() < 21:
             print("1. Hit\n2. Stand")
-            choice = int(input())
+            self.start_timer()
+
+            # Odczyt wejścia w osobnym wątku
+            choice_holder = {'choice': None}
+
+            def get_choice():
+                try:
+                    choice_holder['choice'] = int(input("Choose: "))
+                except ValueError:
+                    choice_holder['choice'] = None
+
+            input_thread = threading.Thread(target=get_choice)
+            input_thread.start()
+
+            input_thread.join(timeout=self.time_limit)
+            self.stop_timer()
+            clear_timer_line()
+
+            if input_thread.is_alive():
+                print("\n⏱️ Time's up! Defaulting to Stand.")
+                break
+
+            choice = choice_holder['choice']
             if choice == 1:
                 player.add_card(self.deck.draw())
                 player.show_hand()
@@ -64,62 +109,43 @@ class Game:
                 print("Invalid choice")
 
         if player.get_hand_value() > 21:
-            print("Bust!")
+            print("💥 Bust!")
+
 
     def play_round(self):
-        self.start_timer()
-        try:
-            while self.timer_running:
-            
-                self.com_player.add_card(self.deck.draw())
-                print(self.com_player.name)
-                self.com_player.show_hand()
+        self.com_player.add_card(self.deck.draw())
+        print(f"\n🤖 {self.com_player.name}'s initial hand:")
+        self.com_player.show_hand()
 
-                for player in self.players:
-                    self.player_round(player)
-
-                print(self.com_player.name)
-                while self.com_player.should_draw_card():
-                    self.com_player.add_card(self.deck.draw())
-                    self.com_player.show_hand()
-                    print("Hand value:", self.com_player.get_hand_value(), "\n")
-                    input("Press enter to continue...")
-
-                com_val = self.com_player.get_hand_value()
-
-                if com_val > 21:
-                    print("Bust!\n")
-
-                print("\tRESULTS:")
-                for player in self.players:
-                    val = player.get_hand_value()
-                    if val <= 21 and (val > com_val or com_val > 21):
-                        print(player.name, "WINS!\n")
-                    elif 21 <= val == com_val:
-                        print(player.name, "DRAWS!\n")
-                    else:
-                        print(player.name, "LOSES!\n")
-                    player.reset_hand()
-
-                self.com_player.reset_hand()
-                self.stop_timer()
-
-        finally:
-            self.end_game()
-
-    def end_game(self):
-        self.stop_timer()
-        print("Koniec gry.")
-        print("Wyniki:")
         for player in self.players:
-            print(player.name, "ma", player.get_hand_value(), "punktów")
-        winner = max(self.players, key=lambda p: p.total_points, default=None)
-        print("Zwycięzca:", winner.name if winner else "Brak zwycięzcy")
-        print("Czas gry:", self.time_limit - self.time_left, "sekund")
+            self.player_round(player)
 
+        print(f"\n🤖 {self.com_player.name}'s turn:")
+        while self.com_player.should_draw_card():
+            self.com_player.add_card(self.deck.draw())
+            self.com_player.show_hand()
+            print("Hand value:", self.com_player.get_hand_value(), "\n")           
+            clear_timer_line()
+            input("Press enter to continue...")
 
+        com_val = self.com_player.get_hand_value()
+        if com_val > 21:
+            print("💥 Dealer busts!")
+
+        print("\n🎯 RESULTS:")
+        for player in self.players:
+            val = player.get_hand_value()
+            if val <= 21 and (val > com_val or com_val > 21):
+                print(f"✅ {player.name} WINS!")
+            elif val == com_val and val <= 21:
+                print(f"🤝 {player.name} DRAWS!")
+            else:
+                print(f"❌ {player.name} LOSES!")
+            player.reset_hand()
+
+        self.com_player.reset_hand()
 
 p1 = Player("Leon")
 c = ComputerPlayer("Dealer")
-game = Game(c, p1, deck_count=2, time_limit=120)
+game = Game(c, p1, deck_count=2, time_limit=30)
 game.run(3)
