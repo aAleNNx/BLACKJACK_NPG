@@ -15,6 +15,12 @@ class Game:
         self.players = players
         self.com_player = com_player
 
+    def start_timer(self):
+        self.timer_running = True
+        self.timer_thread = threading.Thread(target=self._run_timer)
+        self.timer_thread.start()
+
+        
     def run(self, num_rounds):
         for i in range(num_rounds):
             print("ROUND", i + 1)
