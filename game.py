@@ -19,6 +19,18 @@ class Game:
         self.timer_running = True
         self.timer_thread = threading.Thread(target=self._run_timer)
         self.timer_thread.start()
+    def _run_timer(self):
+        while self.time_left > 0 and self.timer_running:
+            time.sleep(1)
+            self.time_left -= 1
+            print(f"Czas pozostały: {self.time_left} sekund", end=" ")
+        if self.time_left <= 0:
+            print("\nCzas minął!")
+            self.timer_running = False
+            for player in self.players:
+                player.reset_hand()
+            self.com_player.reset_hand()
+
 
         
     def run(self, num_rounds):
