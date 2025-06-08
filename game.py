@@ -6,10 +6,10 @@ import threading
 import sys
 
 def on_tick(sekundy):
-    if sekundy > 0:
-        print(f"\r[TIMER] ⏳ Left: {sekundy} seconds. ", end='', flush=True, file=sys.stderr)
-    else:
-        print("[TIMER] ❌ Time's up!", file=sys.stderr) 
+    total = game.time_limit 
+    progress = int((total - sekundy) / total * 30)  
+    bar = "█" * progress + "-" * (30 - progress)
+    print(f"\r[TIMER] ⏳ Left: {sekundy:2d}s |{bar}|", end='', flush=True, file=sys.stderr)
 def clear_timer_line():
     sys.stderr.write('\r' + ' ' * 80 + '\r')
     sys.stderr.flush()
@@ -56,7 +56,6 @@ class Game:
     def run(self, num_rounds):
         for i in range(num_rounds):
             print(f"\n===== ROUND {i + 1} =====")
-            self.start_timer()
             self.play_round()
             self.stop_timer()
             clear_timer_line()
@@ -78,7 +77,6 @@ class Game:
             print("1. Hit\n2. Stand")
             self.start_timer()
 
-            # Odczyt wejścia w osobnym wątku
             choice_holder = {'choice': None}
 
             def get_choice():
