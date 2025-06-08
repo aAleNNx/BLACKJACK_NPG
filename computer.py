@@ -39,7 +39,6 @@ class ComputerPlayer:
     def show_hand(self):
         for card in self.hand:
             print(card)
-            print("\n")
 
     def __str__(self):
         return f"{self.name} — ręka: {[str(card) for card in self.hand]}"

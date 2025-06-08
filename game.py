@@ -123,8 +123,8 @@ class Game:
         self.com_player.show_hand()
         while self.com_player.should_draw_card():
             self.com_player.add_card(self.deck.draw())
-            print(self.com_player.hand[-1])
-        print("Hand value:", self.com_player.get_hand_value(), "\n")
+            print(self.com_player.hand[-1], end="")
+        print("\nHand value:", self.com_player.get_hand_value(), "\n")
         clear_timer_line()
 
 
