@@ -1,22 +1,22 @@
+from typing import Any
+
 from computer import ComputerPlayer
 from deck import *
 from player import *
 import time
 import threading
 import sys
+from stats import *
+import os
 
-def on_tick(sekundy):
-    total = game.time_limit 
-    progress = int((total - sekundy) / total * 30)  
-    bar = "█" * progress + "-" * (30 - progress)
-    print(f"\r[TIMER] ⏳ Left: {sekundy:2d}s |{bar}|", end='', flush=True, file=sys.stderr)
+
 def clear_timer_line():
     sys.stderr.write('\r' + ' ' * 80 + '\r')
     sys.stderr.flush()
 
 
 class Game:
-    def __init__(self, com_player: ComputerPlayer, *players: Player, deck_count=1, time_limit=10):
+    def __init__(self, com_player: ComputerPlayer, *players: Player, deck_count=1, time_limit=10, stats = None):
         self.time_limit = time_limit
         self.time_left = time_limit
         self.timer_running = False
@@ -24,23 +24,28 @@ class Game:
         self.deck = Deck(deck_count)
         self.players = players
         self.com_player = com_player
-        self.on_tick = on_tick
         self.time_up = False
+        self.stats = stats
+
+    def on_tick(self, sekundy):
+        total = self.time_limit
+        progress = int((total - sekundy) / total * 30)
+        bar = "█" * progress + "-" * (30 - progress)
+        print(f"\r[TIMER] ⏳ Left: {sekundy:2d}s |{bar}|", end='', flush=True, file=sys.stderr)
 
     def start_timer(self):
         self.time_left = self.time_limit
         self.time_up = False
-        self.timer_running = False 
+        self.timer_running = False
         self.timer_thread = threading.Thread(target=self._run_timer)
         self.timer_thread.start()
 
     def _run_timer(self):
-        self.timer_running = True 
+        self.timer_running = True
         while self.time_left > 0 and self.timer_running:
             time.sleep(1)
             self.time_left -= 1
-            if self.on_tick:
-                self.on_tick(self.time_left)
+            self.on_tick(self.time_left)
         if self.time_left <= 0:
             self.time_up = True
             if self.on_tick:
@@ -139,15 +144,74 @@ class Game:
             val = player.get_hand_value()
             if val <= 21 and (val > com_val or com_val > 21):
                 print(f"✅ {player.name} WINS!")
+                update_stats(self.stats, player.name, "win")
             elif val == com_val and val <= 21:
                 print(f"🤝 {player.name} DRAWS!")
+                update_stats(self.stats, player.name, "draw")
             else:
                 print(f"❌ {player.name} LOSES!")
+                update_stats(self.stats, player.name, "loss")
             player.reset_hand()
-
+        save_stats(self.stats)
         self.com_player.reset_hand()
 
-p1 = Player("Leon")
-c = ComputerPlayer("Dealer")
-game = Game(c, p1, deck_count=2, time_limit=10)
-game.run(3)
+def play_game(stats):
+    try:
+        liczba_graczy = int(input("Podaj liczbę graczy (1-5): "))
+        if liczba_graczy < 1 or liczba_graczy > 5:
+            print("❗ Liczba graczy musi być od 1 do 5.")
+            return
+    except ValueError:
+        print("❗ Błędna liczba graczy.")
+        return
+
+    players = []
+    for i in range(liczba_graczy):
+        name = input(f"Podaj imię gracza {i+1}: ")
+        players.append(Player(name))
+
+    com = ComputerPlayer("Dealer")
+
+    game = Game(com, *players, deck_count=2, time_limit=10, stats=stats)
+    try:
+        rundy = int(input("Ile rund chcesz zagrać?: "))
+        if rundy <= 0:
+            print("❗ Liczba rund musi być większa niż 0.")
+            return
+    except ValueError:
+        print("❗ Błędna liczba rund.")
+        return
+
+    game.run(rundy)
+
+
+def main():
+    os.makedirs("data", exist_ok=True)
+    stats = load_stats()
+
+    while True:
+        print("\n📋 MENU:")
+        print("1. Zagraj")
+        print("2. Wyświetl statystyki")
+        print("3. Zresetuj statystyki")
+        print("4. Wyjdź")
+        choice = input("Wybierz opcję (1-4): ")
+
+        if choice == "1":
+            play_game(stats)
+        elif choice == "2":
+            display_stats(stats)
+        elif choice == "3":
+            confirm = input("Na pewno zresetować statystyki? (t/n): ").lower()
+            if confirm == "t":
+                reset_stats()
+                stats = {}
+                print("✅ Statystyki zresetowane.")
+        elif choice == "4":
+            print("👋 Do zobaczenia!")
+            break
+        else:
+            print("❗ Nieprawidłowa opcja. Wybierz 1, 2, 3 lub 4.")
+
+if __name__ == "__main__":
+    main()

@@ -19,12 +19,12 @@ def apply_special_effect(card, player, deck, computer):
 
 def effect_remove_card(*computer):
     for player in computer:
-        if computer.hand:
-            removed_card = random.choice(computer.hand)
-            computer.hand.remove(removed_card)
-            print(f"{computer.name} traci kartę: {removed_card}")
+        if player.hand:
+            removed_card = random.choice(player.hand)
+            player.hand.remove(removed_card)
+            print(f"{player.name} traci kartę: {removed_card}")
         else:
-            print(f"{computer.name} nie ma kart do usunięcia.")
+            print(f"{player.name} nie ma kart do usunięcia.")
 
 
 def effect_draw_two(player, deck, computer):
