@@ -123,7 +123,9 @@ class Game:
         self.com_player.show_hand()
         while self.com_player.should_draw_card():
             self.com_player.add_card(self.deck.draw(), self.deck, self.players)
-            print(self.com_player.hand[-1], end="")
+            print("|||",self.com_player.hand[-1], end=" ")
+        if(len(self.com_player.hand) > 2):
+            print("|||")
         print("\nHand value:", self.com_player.get_hand_value(), "\n")
         clear_timer_line()
 
