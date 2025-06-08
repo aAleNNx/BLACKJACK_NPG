@@ -94,6 +94,7 @@ class Game:
 
             if input_thread.is_alive():
                 print("\n⏱️ Time's up! Defaulting to Stand.")
+                choice_holder['choice'] = 2
                 break
 
             choice = choice_holder['choice']
@@ -145,5 +146,5 @@ class Game:
 
 p1 = Player("Leon")
 c = ComputerPlayer("Dealer")
-game = Game(c, p1, deck_count=2, time_limit=30)
+game = Game(c, p1, deck_count=2, time_limit=5)
 game.run(3)
