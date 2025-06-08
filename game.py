@@ -64,8 +64,8 @@ class Game:
 
     def player_round(self, player: Player):
         print(f"\n▶️ {player.name}'s turn")
-        player.add_card(self.deck.draw())
-        player.add_card(self.deck.draw())
+        player.add_card(self.deck.draw(), self.deck, self.com_player)
+        player.add_card(self.deck.draw(), self.deck, self.com_player)
         player.show_hand()
         print("Hand value:", player.get_hand_value(), "\n")
 
@@ -99,7 +99,7 @@ class Game:
 
             choice = choice_holder['choice']
             if choice == 1:
-                player.add_card(self.deck.draw())
+                player.add_card(self.deck.draw(), self.deck, self.com_player)
                 player.show_hand()
                 print("Hand value:", player.get_hand_value(), "\n")
             elif choice == 2:
@@ -112,8 +112,8 @@ class Game:
 
 
     def play_round(self):
-        self.com_player.add_card(self.deck.draw())
-        self.com_player.add_card(self.deck.draw())
+        self.com_player.add_card(self.deck.draw(), self.deck, self.players)
+        self.com_player.add_card(self.deck.draw(), self.deck, self.players)
         print(f"\n🤖 {self.com_player.name}'s initial hand: ", self.com_player.hand[0])
 
         for player in self.players:
@@ -122,7 +122,7 @@ class Game:
         print(f"\n🤖 {self.com_player.name}'s turn:")
         self.com_player.show_hand()
         while self.com_player.should_draw_card():
-            self.com_player.add_card(self.deck.draw())
+            self.com_player.add_card(self.deck.draw(), self.deck, self.players)
             print(self.com_player.hand[-1], end="")
         print("\nHand value:", self.com_player.get_hand_value(), "\n")
         clear_timer_line()

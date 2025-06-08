@@ -2,6 +2,7 @@ import random
 from card import *
 from deck import *
 
+
 def apply_special_effect(card, player, deck, computer):
     if card.rank == "X":
         #Usuwa kartę przeciwnika
@@ -16,13 +17,14 @@ def apply_special_effect(card, player, deck, computer):
         effect_draw_two(player, deck, computer)
         #Dobiera 2 karty
 
-def effect_remove_card(computer):
-    if computer.hand:
-        removed_card = random.choice(computer.hand)
-        computer.hand.remove(removed_card)
-        print(f"{computer.name} traci kartę: {removed_card}")
-    else:
-        print(f"{computer.name} nie ma kart do usunięcia.")
+def effect_remove_card(*computer):
+    for player in computer:
+        if computer.hand:
+            removed_card = random.choice(computer.hand)
+            computer.hand.remove(removed_card)
+            print(f"{computer.name} traci kartę: {removed_card}")
+        else:
+            print(f"{computer.name} nie ma kart do usunięcia.")
 
 
 def effect_draw_two(player, deck, computer):
