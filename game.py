@@ -113,19 +113,20 @@ class Game:
 
     def play_round(self):
         self.com_player.add_card(self.deck.draw())
-        print(f"\n🤖 {self.com_player.name}'s initial hand:")
-        self.com_player.show_hand()
+        self.com_player.add_card(self.deck.draw())
+        print(f"\n🤖 {self.com_player.name}'s initial hand: ", self.com_player.hand[0])
 
         for player in self.players:
             self.player_round(player)
 
         print(f"\n🤖 {self.com_player.name}'s turn:")
+        self.com_player.show_hand()
         while self.com_player.should_draw_card():
             self.com_player.add_card(self.deck.draw())
-            self.com_player.show_hand()
-            print("Hand value:", self.com_player.get_hand_value(), "\n")           
-            clear_timer_line()
-            input("Press enter to continue...")
+            print(self.com_player.hand[-1])
+        print("Hand value:", self.com_player.get_hand_value(), "\n")
+        clear_timer_line()
+
 
         com_val = self.com_player.get_hand_value()
         if com_val > 21:
@@ -146,5 +147,5 @@ class Game:
 
 p1 = Player("Leon")
 c = ComputerPlayer("Dealer")
-game = Game(c, p1, deck_count=2, time_limit=5)
+game = Game(c, p1, deck_count=2, time_limit=10)
 game.run(3)
