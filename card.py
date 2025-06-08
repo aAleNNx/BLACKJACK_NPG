@@ -3,6 +3,7 @@ class Card:
         self.suit = suit
         self.rank = rank
         self.is_special = is_special
+        self.multiplier = multiplier
 
     def __str__(self):
         if self.is_special:
