@@ -2,6 +2,25 @@ from game import *
 import os
 
 def play_game(stats):
+
+    try:
+        liczba_talii = int(input("Podaj liczbę talii (1-8): "))
+        if liczba_talii < 1 or liczba_talii > 8:
+            print("❗ Liczba talii musi być od 1 do 8.")
+            return
+    except ValueError:
+        print("❗ Błędna liczba talii.")
+        return
+
+    try:
+        limit_czasu = int(input("Podaj limit czasowy (1-20): "))
+        if limit_czasu < 1 or limit_czasu > 20:
+            print("❗ Limit czasowy musi być od 1 do 20.")
+            return
+    except ValueError:
+        print("❗ Błędny limit czasowy.")
+        return
+
     try:
         liczba_graczy = int(input("Podaj liczbę graczy (1-5): "))
         if liczba_graczy < 1 or liczba_graczy > 5:
@@ -15,7 +34,7 @@ def play_game(stats):
         name = input(f"Podaj imię gracza {i+1}: ")
         players.append(Player(name))
     com = ComputerPlayer("Dealer")
-    game = Game(com, *players, deck_count=2, time_limit=10, stats=stats)
+    game = Game(com, *players, deck_count=liczba_talii, time_limit=limit_czasu, stats=stats)
     try:
         rundy = int(input("Ile rund chcesz zagrać?: "))
         if rundy <= 0:
@@ -53,3 +72,6 @@ def main():
             break
         else:
             print("❗ Nieprawidłowa opcja. Wybierz 1, 2, 3 lub 4.")
+
+if __name__ == "__main__":
+    main()

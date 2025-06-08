@@ -1,32 +1,12 @@
 {
     "Szymon": {
-        "wins": 3,
-        "losses": 2,
-        "draws": 1
-    },
-    "Leon": {
         "wins": 4,
         "losses": 2,
-        "draws": 0
-    },
-    "Bartek": {
-        "wins": 1,
-        "losses": 3,
-        "draws": 0
-    },
-    "Jasiu": {
-        "wins": 1,
-        "losses": 2,
         "draws": 1
     },
-    "Janusz": {
-        "wins": 1,
-        "losses": 1,
-        "draws": 0
-    },
-    "Filip": {
+    "Bartek": {
         "wins": 2,
-        "losses": 0,
-        "draws": 0
+        "losses": 2,
+        "draws": 1
     }
 }

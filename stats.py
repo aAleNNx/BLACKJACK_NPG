@@ -20,7 +20,6 @@ def init_player_stats(stats, player_name):
     if player_name not in stats:
         stats[player_name] = {"wins": 0, "losses": 0, "draws": 0}
 
-
 def update_stats(stats, player_name, result):
     """
     result: "win", "loss", or "draw"
@@ -33,7 +32,6 @@ def update_stats(stats, player_name, result):
     elif result == "draw":
         stats[player_name]["draws"] += 1
 
-
 def reset_stats():
     """
     Usuwa wszystkie dane statystyczne (z pliku)
@@ -43,7 +41,6 @@ def reset_stats():
         print("Statystyki zostały zresetowane.")
     else:
         print("Nie znaleziono pliku statystyk.")
-
 
 def display_stats(stats):
     if not stats:
