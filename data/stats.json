@@ -1,0 +1,22 @@
+{
+    "Test": {
+        "wins": 7,
+        "losses": 17,
+        "draws": 1
+    },
+    "Maciej": {
+        "wins": 0,
+        "losses": 1,
+        "draws": 0
+    },
+    "Szymon": {
+        "wins": 0,
+        "losses": 1,
+        "draws": 0
+    },
+    "test": {
+        "wins": 6,
+        "losses": 3,
+        "draws": 3
+    }
+}
