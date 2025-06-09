@@ -34,7 +34,7 @@ def play_game(stats):
         name = input(f"Podaj imię gracza {i+1}: ")
         players.append(Player(name))
     com = ComputerPlayer("Dealer")
-    game = Game(com, *players, deck_count=liczba_talii, time_limit=limit_czasu, stats=stats)
+    game = Game(com, players, deck_count=liczba_talii, time_limit=limit_czasu, stats=stats)
     try:
         rundy = int(input("Ile rund chcesz zagrać?: "))
         if rundy <= 0:

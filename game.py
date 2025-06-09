@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 from computer import ComputerPlayer
 from deck import *
@@ -16,7 +16,7 @@ def clear_timer_line():
 
 
 class Game:
-    def __init__(self, com_player: ComputerPlayer, *players: Player, deck_count=1, time_limit=10, stats = None):
+    def __init__(self, com_player: ComputerPlayer, players: List[Player], deck_count=1, time_limit=10, stats = None):
         self.time_limit = time_limit
         self.time_left = time_limit
         self.timer_running = False
@@ -26,6 +26,7 @@ class Game:
         self.com_player = com_player
         self.time_up = False
         self.stats = stats
+        self.split_hands = []
 
     def on_tick(self, sekundy):
         total = self.time_limit
@@ -70,7 +71,8 @@ class Game:
     def player_round(self, player: Player):
         print(f"\n▶️ {player.name}'s turn")
         player.add_card(self.deck.draw(), self.deck, self.com_player)
-        player.add_card(self.deck.draw(), self.deck, self.com_player)
+        if len(player.hand) < 2:
+            player.add_card(self.deck.draw(), self.deck, self.com_player)
         player.show_hand()
         print("Hand value:", player.get_hand_value(), "\n")
 
@@ -79,7 +81,10 @@ class Game:
             return
 
         while player.get_hand_value() < 21:
-            print("1. Hit\n2. Stand")
+            if player.can_split():
+                print("1. Hit\n2. Stand\n3. Split")
+            else:
+                print("1. Hit\n2. Stand")
             self.start_timer()
 
             choice_holder = {'choice': None}
@@ -109,6 +114,17 @@ class Game:
                 print("Hand value:", player.get_hand_value(), "\n")
             elif choice == 2:
                 break
+            elif choice == 3 and player.can_split():
+                split_hand = Split_Hand(f"{player.name}'s split hand", player)
+                split_hand.add_card(player.remove_card())
+                player.add_card(self.deck.draw(), self.deck, self.com_player)
+                self.split_hands.append(split_hand)
+
+                print("HAND 1:")
+                self.player_round(split_hand)
+                print("HAND 2:")
+                player.show_hand()
+                print("Hand value:", player.get_hand_value(), "\n")
             else:
                 print("Invalid choice")
 
@@ -149,6 +165,20 @@ class Game:
                 print(f"❌ {player.name} LOSES!")
                 update_stats(self.stats, player.name, "loss")
             player.reset_hand()
+
+        for split_hand in self.split_hands:
+            val = split_hand.get_hand_value()
+            if val <= 21 and (val > com_val or com_val > 21):
+                print(f"✅ {split_hand.name} WINS FROM SPLIT HAND!")
+                update_stats(self.stats, split_hand.player.name, "win")
+            elif val == com_val and val <= 21:
+                print(f"🤝 {split_hand.player.name} DRAWS FROM SPLIT HAND!")
+                update_stats(self.stats, split_hand.player.name, "draw")
+            else:
+                print(f"❌ {split_hand.name} LOSES FROM SPLIT HAND!")
+                update_stats(self.stats, split_hand.player.name, "loss")
+
+        self.split_hands.clear()
         save_stats(self.stats)
         self.com_player.reset_hand()
 
