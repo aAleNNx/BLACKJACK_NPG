@@ -58,7 +58,8 @@ def effect_copy_card(player):
 
 def effect_change_value(player):
     if type(player) == ComputerPlayer:
-        player.hand[-1].rank = random.randint(1, 10)
+        val = player.get_hand_value()
+        player.hand[-1].rank = random.randint(1, min(21-val, 10))
         player.hand[-1].is_special = False
         return
     player.show_hand()
