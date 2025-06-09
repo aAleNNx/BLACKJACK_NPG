@@ -1,5 +1,6 @@
 import random
 from card import *
+from computer import ComputerPlayer
 from deck import *
 
 
@@ -56,6 +57,10 @@ def effect_copy_card(player):
         print(f"{player.name} nie ma żadnej karty do skopiowania.")
 
 def effect_change_value(player):
+    if type(player) == ComputerPlayer:
+        player.hand[-1].rank = random.randint(1, 10)
+        player.hand[-1].is_special = False
+        return
     player.show_hand()
     while True:
         choice = input("Wybierz wartość JOKERA od 1 do 10: ")
