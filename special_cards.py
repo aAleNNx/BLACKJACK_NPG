@@ -16,6 +16,9 @@ def apply_special_effect(card, player, deck, computer):
     elif card.rank == "Z":
         effect_draw_two(player, deck, computer)
         #Dobiera 2 karty
+    elif card.rank == "JOKER":
+        effect_change_value(player)
+        #Zmienia wartość jokera
 
 def effect_remove_card(*computer):
     for player in computer:
@@ -47,3 +50,18 @@ def effect_copy_card(player):
         print(f"{player.name} używa C: kopiuje kartę {last_card} → otrzymuje {copied_card}")
     else:
         print(f"{player.name} nie ma żadnej karty do skopiowania.")
+
+def effect_change_value(player):
+    player.show_hand()
+    while True:
+        choice = input("Wybierz wartość JOKERA od 1 do 10: ")
+        if choice.isdigit():
+            choice = int(choice)
+            if 1 <= choice <= 10:
+                player.hand[-1].rank = choice
+                player.hand[-1].is_special = False
+                return
+            else:
+                print("Liczba spoza zakresu. Spróbuj jeszcze raz.")
+        else:
+            print("To nie jest liczba. Spróbuj jeszcze raz.")

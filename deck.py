@@ -18,6 +18,7 @@ class Deck:
                     cards.append(Card(suit, rank))
         special_cards = [
             Card("Special", "JOKER", is_special=True),
+            Card("Special", "C", is_special=True),
             Card("Special", "D", is_special=True),
             Card("Special", "X", is_special=True),
             Card("Special", "Z", is_special=True),

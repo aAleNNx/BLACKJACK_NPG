@@ -72,7 +72,9 @@ class Game:
         print(f"\n▶️ {player.name}'s turn")
         player.add_card(self.deck.draw(), self.deck, self.com_player)
         if len(player.hand) < 2:
-            player.add_card(self.deck.draw(), self.deck, self.com_player)
+            #player.add_card(self.deck.draw(), self.deck, self.com_player)
+            player.add_card(Card("Special", "JOKER", is_special=True), self.deck, self.com_player)
+
         player.show_hand()
         print("Hand value:", player.get_hand_value(), "\n")
 
