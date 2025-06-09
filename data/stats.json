@@ -18,5 +18,20 @@
         "wins": 6,
         "losses": 3,
         "draws": 3
+    },
+    "tw": {
+        "wins": 1,
+        "losses": 0,
+        "draws": 0
+    },
+    "t1": {
+        "wins": 1,
+        "losses": 0,
+        "draws": 0
+    },
+    "r": {
+        "wins": 1,
+        "losses": 0,
+        "draws": 0
     }
 }

@@ -22,12 +22,17 @@ def apply_special_effect(card, player, deck, computer):
         #Zmienia wartość jokera
 
 def effect_remove_card(*computer):
-        player = random.choice(computer)
+    if len(computer) == 1 and isinstance(computer[0], list):
+        players = computer[0]  # Rozpakuj listę
+    else:
+        players = computer
+    player = random.choice(players)
+    if player.hand:
         removed_card = random.choice(player.hand)
         player.hand.remove(removed_card)
-        print(f"{player.name} traci kartę: {removed_card}")
-        print(f"{player.name} nie ma kart do usunięcia.")
-
+        print(f"Usunięto kartę {removed_card} od gracza {player}")
+    else:
+        print(f"Gracz {player.name} nie ma kart do usunięcia.")
 
 def effect_draw_two(player, deck, computer):
     for i in range(2):
