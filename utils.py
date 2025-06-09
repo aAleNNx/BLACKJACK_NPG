@@ -4,7 +4,7 @@ def calculate_hand_value(hand):
 
     for card in hand:
         mult = getattr(card, 'multiplier', 1.0)
-        if card.is_special and card.rank != "JOKER":
+        if card.is_special:
             continue
         if card.rank in ['J', 'Q', 'K']:
             total_val += 10 * mult
