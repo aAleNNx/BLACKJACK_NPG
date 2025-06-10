@@ -1,6 +1,5 @@
 import random
 from utils import *
-from special_cards import apply_special_effect
 
 class ComputerPlayer:
     def __init__(self, name="Komputer"):
@@ -11,6 +10,7 @@ class ComputerPlayer:
         self.busted = False
 
     def add_card(self, card, deck = None, player = None):
+        from special_cards import apply_special_effect 
         if self.next_card_mult != 1.0:
             card.multiplier = self.next_card_mult
             self.next_card_mult = 1.0

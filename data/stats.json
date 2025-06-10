@@ -1,37 +1,17 @@
 {
-    "Test": {
-        "wins": 7,
-        "losses": 17,
-        "draws": 1
+    "leon": {
+        "wins": 3,
+        "losses": 0,
+        "draws": 0
     },
-    "Maciej": {
+    "2": {
         "wins": 0,
+        "losses": 0,
+        "draws": 2
+    },
+    "3": {
+        "wins": 1,
         "losses": 1,
-        "draws": 0
-    },
-    "Szymon": {
-        "wins": 0,
-        "losses": 1,
-        "draws": 0
-    },
-    "test": {
-        "wins": 6,
-        "losses": 3,
-        "draws": 3
-    },
-    "tw": {
-        "wins": 1,
-        "losses": 0,
-        "draws": 0
-    },
-    "t1": {
-        "wins": 1,
-        "losses": 0,
-        "draws": 0
-    },
-    "r": {
-        "wins": 1,
-        "losses": 0,
         "draws": 0
     }
 }
