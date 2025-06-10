@@ -74,20 +74,24 @@ class Game:
         if len(player.hand) < 2:
             player.add_card(self.deck.draw(), self.deck, self.com_player)
 
-        player.show_hand()
-        print("Hand value:", player.get_hand_value(), "\n")
+        while True:
+            player.show_hand()
+            print("Hand value:", player.get_hand_value(), "\n")
 
-        if player.get_hand_value() == 21:
-            print("🎉 BLACKJACK!")
-            return
+            if player.get_hand_value() == 21:
+                print("🎉 BLACKJACK!")
+                return
 
-        while player.get_hand_value() < 21:
+            if player.get_hand_value() > 21:
+                print("💥 Bust!")
+                return
+
             if player.can_split():
-                print("1. Hit\n2. Stand\n3. Split")
+                print("1. Hit\n2. Stand\n3. Split\n4. Undo")
             else:
-                print("1. Hit\n2. Stand")
-            self.start_timer()
+                print("1. Hit\n2. Stand\n4. Undo")
 
+            self.start_timer()
             choice_holder = {'choice': None}
 
             def get_choice():
@@ -98,7 +102,6 @@ class Game:
 
             input_thread = threading.Thread(target=get_choice)
             input_thread.start()
-
             input_thread.join(timeout=self.time_limit)
             self.stop_timer()
             clear_timer_line()
@@ -106,13 +109,11 @@ class Game:
             if input_thread.is_alive():
                 print("\n⏱️ Time's up! Defaulting to Stand.")
                 choice_holder['choice'] = 2
-                break
 
             choice = choice_holder['choice']
+
             if choice == 1:
                 player.add_card(self.deck.draw(), self.deck, self.com_player)
-                player.show_hand()
-                print("Hand value:", player.get_hand_value(), "\n")
             elif choice == 2:
                 break
             elif choice == 3 and player.can_split():
@@ -124,8 +125,9 @@ class Game:
                 print("HAND 1:")
                 self.player_round(split_hand)
                 print("HAND 2:")
-                player.show_hand()
-                print("Hand value:", player.get_hand_value(), "\n")
+            elif choice == 4:
+                player.undo(self.deck)
+                continue  
             else:
                 print("Invalid choice")
 

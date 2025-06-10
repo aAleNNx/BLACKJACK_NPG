@@ -1,7 +1,7 @@
 {
     "leon": {
-        "wins": 3,
-        "losses": 0,
+        "wins": 4,
+        "losses": 1,
         "draws": 0
     },
     "2": {
@@ -12,6 +12,11 @@
     "3": {
         "wins": 1,
         "losses": 1,
+        "draws": 0
+    },
+    "1": {
+        "wins": 4,
+        "losses": 8,
         "draws": 0
     }
 }
