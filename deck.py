@@ -8,20 +8,20 @@ class Deck:
         random.shuffle(self.deck)
 
     def generate_decks(self):
-        suits=["Clubs", "Diamonds", "Hearts", "Spades"]
-        ranks=["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+        suits=["Clubs", "Diamonds", "Spades", "Hearts"]
+        ranks=["A","2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
         cards = []
         for i in range(self.deck_count):
             for suit in suits:
                 for rank in ranks:
                     cards.append(Card(suit, rank))
-        special_cards =[
+        specials = [
             Card(suit="Special", rank="JOKER", is_special=True),
             Card(suit="Special", rank="C", is_special=True),
             Card(suit="Special", rank="D", is_special=True),
             Card(suit="Special", rank="X", is_special=True),
             Card(suit="Special", rank="Z", is_special=True),]
-        for special in special_cards:
+        for special in specials:
             cards.append(special)
         return cards
 
