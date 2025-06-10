@@ -86,10 +86,14 @@ class Game:
                 print("💥 Bust!")
                 return
 
-            if player.can_split():
+            if player.can_split() and len(player.hand) > 2:
                 print("1. Hit\n2. Stand\n3. Split\n4. Undo")
+            elif player.can_split() and len(player.hand) <= 2:
+                print("1. Hit\n2. Stand\n3.Split")
+            elif len(player.hand) > 2:
+                print("1. Hit\n2. Stand\n4.Undo")
             else:
-                print("1. Hit\n2. Stand\n4. Undo")
+                print("1. Hit\n2. Stand")
 
             self.start_timer()
             choice_holder = {'choice': None}
@@ -125,7 +129,7 @@ class Game:
                 print("HAND 1:")
                 self.player_round(split_hand)
                 print("HAND 2:")
-            elif choice == 4:
+            elif choice == 4 and len(player.hand) >= 3:
                 player.undo(self.deck)
                 continue  
             else:
