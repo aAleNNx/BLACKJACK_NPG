@@ -36,6 +36,3 @@ class Deck:
     def reset(self):
         self.deck = self.generate_decks()
         random.shuffle(self.deck)
-
-    def is_empty(self):
-        return len(self.deck) == 0
